@@ -1,0 +1,16 @@
+{
+  "name": "authenticatorblx",
+  "version": "0.0.1",
+  "description": "Authenticate to connected roblox games using oauth2. Used in niche cases, like closed beta to a select group in a discord server.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chrono",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.15.2",
+    "roblox-long-polling": "github:ReAdminRBX/roblox-long-polling#d9ce7c634b42f963176968c80355e9e3fc3a690e",
+    "simple-json-db": "^2.0.0"
+  }
+}
