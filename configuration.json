@@ -1,5 +1,5 @@
 {
-    "botToken": "heya",
-    "botClientId": "wooo",
-    "robloxLongPollingPassword": "WVGDdfTPrttZvqrKTtoyvCQeKENOvp this is optional btw"
+    "botToken": "your-secure-bot-token",
+    "botClientId": "your-secure-bot-client-id",
+    "robloxLongPollingPassword": "your-secure-roblox-long-polling-password"
 }

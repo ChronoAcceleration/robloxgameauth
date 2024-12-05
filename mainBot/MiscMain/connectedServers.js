@@ -1,16 +1,17 @@
-let connectedServersCache = {}
+const SimpleJsonDB = require("simple-json-db");
+const db = new SimpleJsonDB("./connectedServers.json");
 
 module.exports = {
     add: function (key, value) {
-        connectedServersCache[key] = value
+        db.set(key, value);
     },
     remove: function (key) {
-        delete connectedServersCache[key]
+        db.delete(key);
     },
     get: function (key) {
-        return connectedServersCache[key]
+        return db.get(key);
     },
     getAll: function () {
-        return connectedServersCache
+        return db.JSON();
     },
-}
+};

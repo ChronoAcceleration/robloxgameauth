@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, Collection } = require("discord.js")
 const { botToken } = require("../configuration.json")
 const { deployCommands } = require("./MiscMain/deploy")
 const { startPollingServer } = require("./MiscMain/authorizationServer")
+const { logError, logInfo } = require("./UtilFunctions/logger")
 
 const nodeFs = require("node:fs")
 const nodePath = require("node:path")
@@ -15,6 +16,14 @@ const setIntents = [
 ]
 const client = new Client({ intents: setIntents })
 client.commands = new Collection()
+
+client.on("error", (error) => {
+    logError(`Client error: ${error.message}`)
+})
+
+client.on("warn", (info) => {
+    logInfo(`Client warning: ${info}`)
+})
 
 // Register Slash Commands
 
@@ -32,7 +41,7 @@ for (const folder of commandFolders) {
         if ("data" in command && "execute" in command) {
             client.commands.set(command.data.name, command)
         } else {
-            console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
+            logError(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
         }
     }
 }
@@ -44,13 +53,13 @@ client.on("interactionCreate", async interaction => {
 
     const command = interaction.client.commands.get(interaction.commandName)
     if (!command) {
-        console.warn("No command found with name " + interaction.commandName)
+        logError("No command found with name " + interaction.commandName)
     }
 
     try {
         await command.execute(interaction)
     } catch (error) {
-        console.warn(error)
+        logError(`Error executing command: ${error.message}`)
         await interaction.reply({ content: "There was an error while executing this command, sorry pal!", ephemeral: true })
     }
 })
@@ -72,5 +81,7 @@ for (const file of eventFiles) {
 
 deployCommands().then(async () => {
     await startPollingServer()
-    client.login(botToken)
+    client.login(botToken).catch(error => {
+        logError(`Error logging in: ${error.message}`)
+    })
 })

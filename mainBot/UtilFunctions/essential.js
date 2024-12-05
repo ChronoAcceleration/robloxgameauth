@@ -6,7 +6,7 @@ const canDM = async (user) => {
         if (error.code === 50007) {
             return { success: false };
         } else {
-            return { success: 404 };
+            return { success: 404, error: error.message };
         }
     }
 };
